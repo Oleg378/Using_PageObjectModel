@@ -24,4 +24,5 @@ class Endpoints:
     LOGIN_PAGE_ENDPOINT = 'accounts/login/'
     BOOK_PAGE_ENDPOINT_PROMO = 'catalogue/the-shellcoders-handbook_209/?promo=newYear'
     BOOK_PAGE_ENDPOINT_PROMO_207 = 'catalogue/coders-at-work_207/?promo=newYear2019'
+    URL_CODERS_AT_WORK = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
 
