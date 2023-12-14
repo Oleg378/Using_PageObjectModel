@@ -25,3 +25,11 @@ class BookPagePromo(BasePage):
             assert price_book_from_alert.text == price_book_from_page.text, "prices not match!"
         except NoSuchElementException:
             assert False, "price not found!"
+
+    def should_not_be_success_message(self):
+        assert self.is_not_element_present(*BookPageLocators.BOOK_NAME_FROM_ALERT), \
+            "Success message is presented, but should not be"
+
+    def should_disappear_success_message(self):
+        assert self.is_disappeared(*BookPageLocators.BOOK_NAME_FROM_ALERT), \
+            "Success message is not disappeared, but should be"
