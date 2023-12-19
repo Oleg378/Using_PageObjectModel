@@ -4,6 +4,7 @@ import pytest
 from .pages.locators import Endpoints
 from .pages.product_page import ProductPage
 from .pages.login_page import LoginPage
+from .pages.basket_page import BasketPage
 
 
 @pytest.mark.parametrize('test_link', [Endpoints.URL_CODERS_AT_WORK + "?promo=offer0",
@@ -68,4 +69,15 @@ def test_guest_can_go_to_login_page_from_product_page(browser):
     login_page = LoginPage(browser, browser.current_url)
     login_page.should_be_login_page()
 
+
+def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
+    link = Endpoints.BASIC_URL + Endpoints.BOOK_CITY_AND_STARS
+    page = ProductPage(browser, link)
+    page.open()
+    page.go_to_basket_page()
+    basket_page = BasketPage(browser, browser.current_url)
+    basket_page.should_not_be_goods_in_basket()
+    basket_page.should_be_empty_message()
+
 # pytest -s test_product_page.py
+# pytest -v -s test_product_page.py::test_guest_cant_see_product_in_basket_opened_from_product_page
