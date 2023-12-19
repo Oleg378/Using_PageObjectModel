@@ -1,8 +1,9 @@
 from selenium.webdriver.common.by import By
 
 
-class MainPageLocators:
+class BasePageLocators:
     LOGIN_LINK = (By.CSS_SELECTOR, "#login_link")
+    LOGIN_LINK_INVALID = (By.CSS_SELECTOR, "#login_link_inc")
 
 
 class LoginPageLocators:
@@ -26,6 +27,4 @@ class Endpoints:
     BOOK_PAGE_ENDPOINT_PROMO_207 = 'catalogue/coders-at-work_207/?promo=newYear2019'
     URL_CODERS_AT_WORK = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
     BOOK_PAGE_ENDPOINT = "catalogue/the-shellcoders-handbook_209"
-
-
-
+    BOOK_CITY_AND_STARS = "catalogue/the-city-and-the-stars_95/"

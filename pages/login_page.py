@@ -6,13 +6,6 @@ from .locators import LoginPageLocators, Endpoints
 
 class LoginPage(BasePage):
 
-    def is_element_present(self, how, what):
-        try:
-            self.browser.find_element(how, what)
-        except NoSuchElementException:
-            return False
-        return True
-
     def should_be_login_page(self):
         self.should_be_login_url()
         self.should_be_login_form()

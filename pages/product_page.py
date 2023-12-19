@@ -4,7 +4,7 @@ from .base_page import BasePage
 from .locators import BookPageLocators
 
 
-class BookPage(BasePage):
+class ProductPage(BasePage):
 
     def add_book_to_basket(self):
         btn_add_to_basket = self.browser.find_element(*BookPageLocators.BTN_ADD_TO_BASKET)
