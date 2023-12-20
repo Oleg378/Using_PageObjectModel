@@ -133,3 +133,4 @@ def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
 # pytest -s test_product_page.py
 # pytest -v -s test_product_page.py::test_guest_cant_see_product_in_basket_opened_from_product_page
 # pytest -m registered_user
+
