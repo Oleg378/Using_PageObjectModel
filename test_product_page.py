@@ -1,5 +1,6 @@
 import time
 import pytest
+import random
 
 from .pages.locators import Endpoints
 from .pages.product_page import ProductPage
@@ -18,7 +19,7 @@ from .pages.basket_page import BasketPage
                                                     marks=pytest.mark.xfail),
                                        Endpoints.URL_CODERS_AT_WORK + "?promo=offer8",
                                        Endpoints.URL_CODERS_AT_WORK + "?promo=offer9"])
-def test_user_can_add_book_to_basket(browser, test_link):
+def test_guest_can_add_product_to_basket(browser, test_link):
     link = f"{test_link}"
     # link = Endpoints.BASIC_URL + Endpoints.BOOK_PAGE_ENDPOINT_PROMO_207
     page = ProductPage(browser, link)  # initialization an instance
@@ -54,6 +55,56 @@ def test_message_disappeared_after_adding_product_to_basket(browser):
     page.should_disappear_success_message()  # negative test via .is_disappeared()
 
 
+# @pytest.mark.login
+# class TestLoginFromProductPage():
+#     @pytest.fixture(scope="function", autouse=True)
+#     def setup(self):
+#         self.product = ProductFactory(title="Best book created by robot")
+#         # создаем по апи
+#         self.link = self.product.link
+#         yield
+#         # после этого ключевого слова начинается teardown
+#         # выполнится после каждого теста в классе
+#         # удаляем те данные, которые мы создали
+#         self.product.delete()
+#
+#     def test_guest_can_go_to_login_page_from_product_page(self, browser):
+#         page = ProductPage(browser, self.link)
+#         # дальше обычная реализация теста
+#
+#     def test_guest_should_see_login_link(self, browser):
+#         page = ProductPage(browser, self.link)
+#         # дальше обычная реализация теста
+@pytest.mark.registered_user
+class TestUserAddToBasketFromProductPage:
+    @pytest.fixture(scope="function", autouse=True)
+    def setup(self, browser):
+        link = Endpoints.BASIC_URL + Endpoints.LOGIN_PAGE_ENDPOINT
+        page = LoginPage(browser, link)
+        page.open()
+        email = str(random.randint(1000, 9999)) + "@example.com"
+        password = str(random.randint(1000000000, 99999999999))
+        page.register_new_user(email, password)
+        page.should_be_authorized_user()
+
+        yield
+        page.logout()
+
+    def test_user_cant_see_success_message(self, browser):
+        link = Endpoints.BASIC_URL + Endpoints.BOOK_PAGE_ENDPOINT
+        page = ProductPage(browser, link)
+        page.open()
+        page.should_not_be_success_message()  # positive test via .is_not_element_present()
+
+    def test_user_can_add_product_to_basket(self, browser):
+        link = Endpoints.BASIC_URL + Endpoints.BOOK_PAGE_ENDPOINT
+        page = ProductPage(browser, link)  # initialization an instance
+        page.open()  # already added into BasePage
+        page.add_book_to_basket()
+        page.book_should_be_added_to_card()
+        page.price_should_be_correct()
+
+
 def test_guest_should_see_login_link_on_product_page(browser):
     link = Endpoints.BASIC_URL + Endpoints.BOOK_CITY_AND_STARS
     page = ProductPage(browser, link)
@@ -81,3 +132,4 @@ def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
 
 # pytest -s test_product_page.py
 # pytest -v -s test_product_page.py::test_guest_cant_see_product_in_basket_opened_from_product_page
+# pytest -m registered_user

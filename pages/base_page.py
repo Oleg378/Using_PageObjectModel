@@ -47,6 +47,10 @@ class BasePage:
         except NoAlertPresentException:
             print("No second alert presented")
 
+    def should_be_authorized_user(self):
+        assert self.is_element_present(*BasePageLocators.USER_ICON), "User icon is not presented," \
+                                                                     " probably unauthorised user"
+
     # check that an element does not appear on the page within a specified time:
     def is_not_element_present(self, how, what, timeout=4):
         try:
@@ -65,3 +69,6 @@ class BasePage:
             return False
 
         return True
+
+    def logout(self):
+        self.browser.find_element(*BasePageLocators.LOGOUT_BUTTON).click()
