@@ -8,6 +8,7 @@ from .pages.login_page import LoginPage
 from .pages.basket_page import BasketPage
 
 
+@pytest.mark.need_review
 @pytest.mark.parametrize('test_link', [Endpoints.URL_CODERS_AT_WORK + "?promo=offer0",
                                        # Endpoints.URL_CODERS_AT_WORK + "?promo=offer1",
                                        # Endpoints.URL_CODERS_AT_WORK + "?promo=offer2",
@@ -76,6 +77,7 @@ class TestUserAddToBasketFromProductPage:
         page.open()
         page.should_not_be_success_message()  # positive test via .is_not_element_present()
 
+    @pytest.mark.need_review
     def test_user_can_add_product_to_basket(self, browser):
         link = Endpoints.BASIC_URL + Endpoints.BOOK_PAGE_ENDPOINT
         page = ProductPage(browser, link)  # initialization an instance
@@ -92,6 +94,7 @@ def test_guest_should_see_login_link_on_product_page(browser):
     page.should_be_login_link()
 
 
+@pytest.mark.need_review
 def test_guest_can_go_to_login_page_from_product_page(browser):
     link = Endpoints.BASIC_URL + Endpoints.BOOK_CITY_AND_STARS
     page = ProductPage(browser, link)
@@ -101,6 +104,7 @@ def test_guest_can_go_to_login_page_from_product_page(browser):
     login_page.should_be_login_page()
 
 
+@pytest.mark.need_review
 def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
     link = Endpoints.BASIC_URL + Endpoints.BOOK_CITY_AND_STARS
     page = ProductPage(browser, link)
@@ -113,4 +117,4 @@ def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
 # pytest -s test_product_page.py
 # pytest -v -s test_product_page.py::test_guest_cant_see_product_in_basket_opened_from_product_page
 # pytest -m registered_user
-
+# pytest -v --tb=line --language=en -m need_review
